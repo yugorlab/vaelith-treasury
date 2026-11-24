@@ -66,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // ВЫДВИЖНОЕ МЕНЮ ДЛЯ АДМИН-ПАНЕЛИ (MOBILE)
   // ==========================================
-  const dashboardScreen = document.getElementById("dashboardScreen");
   if (dashboardScreen) {
     const sidebar = dashboardScreen.querySelector(".sidebar");
     const dashboardMain = dashboardScreen.querySelector(".dashboard-main");
