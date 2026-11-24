@@ -1046,6 +1046,11 @@ body::before {
   .metric-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* --- Скрываем кнопку меню по умолчанию (для ПК) --- */
+.mobile-menu-toggle {
+  display: none;
+}
+
 /* Мобильные устройства и планшеты (Выдвижной сайдбар) */
 @media (max-width: 850px) {
   .page-section { padding-left: 5%; padding-right: 5%; }
@@ -1081,10 +1086,11 @@ body::before {
     background: #14101f;
     box-shadow: none;
     
-    /* Возвращаем нормальные стили для меню, так как оно теперь выдвижное */
+    /* Возвращаем нормальные стили и добавляем скролл */
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto; /* Чтобы меню можно было прокрутить, если экран низкий */
   }
   .sidebar.open {
     transform: translateX(0);
@@ -1098,7 +1104,7 @@ body::before {
   .side-link span { font-size: 16px; }
   .side-link i { display: block; }
   
-  .side-bottom { justify-content: flex-start; padding: 20px 12px 0; }
+  .side-bottom { justify-content: flex-start; padding: 20px 12px 0; margin-top: auto; }
   .side-bottom div:nth-child(2) { display: grid; }
   .side-bottom button { display: block; }
 
@@ -1107,8 +1113,9 @@ body::before {
     padding: 24px 20px;
   }
 
+  /* Кнопка открытия меню */
   .mobile-menu-toggle {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     background: var(--panel);
@@ -1125,16 +1132,6 @@ body::before {
   }
   .mobile-menu-toggle:hover {
     background: var(--panel-light);
-  }
-  
-  .mobile-menu-toggle {
-    display: none; 
-  }
-}
-
-@media (max-width: 850px) {
-  .mobile-menu-toggle {
-    display: flex;
   }
 }
 
