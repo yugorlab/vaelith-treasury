@@ -62,4 +62,52 @@ document.addEventListener("DOMContentLoaded", () => {
   const initialRoute = new URLSearchParams(location.search).get("view");
 
   routeTo(initialRoute || "home");
+
+  // ==========================================
+  // ВЫДВИЖНОЕ МЕНЮ ДЛЯ АДМИН-ПАНЕЛИ (MOBILE)
+  // ==========================================
+  const dashboardScreen = document.getElementById("dashboardScreen");
+  if (dashboardScreen) {
+    const sidebar = dashboardScreen.querySelector(".sidebar");
+    const dashboardMain = dashboardScreen.querySelector(".dashboard-main");
+    const dashHeader = dashboardScreen.querySelector(".dash-header");
+    
+    if (sidebar && dashboardMain && dashHeader) {
+    // 1. Создаем кнопку открытия меню
+      const toggleBtn = document.createElement("button");
+      toggleBtn.className = "mobile-menu-toggle";
+      toggleBtn.innerHTML = "☰ Меню хранилища";
+    
+    // Вставляем кнопку перед заголовком (в начало контентной части)
+      dashboardMain.insertBefore(toggleBtn, dashHeader);
+
+    // 2. Создаем темный фон (оверлей)
+      const overlay = document.createElement("div");
+      overlay.className = "sidebar-overlay";
+      dashboardScreen.appendChild(overlay);
+
+    // 3. Логика открытия/закрытия
+      function openMenu() {
+        sidebar.classList.add("open");
+        overlay.classList.add("active");
+      }
+
+      function closeMenu() {
+        sidebar.classList.remove("open");
+        overlay.classList.remove("active");
+      }
+
+      toggleBtn.addEventListener("click", openMenu);
+      overlay.addEventListener("click", closeMenu);
+
+    // 4. Закрываем меню при клике на любую ссылку/вкладку в сайдбаре
+      sidebar.querySelectorAll(".side-link, .side-brand, .side-bottom button").forEach(link => {
+        link.addEventListener("click", () => {
+          if (window.innerWidth <= 850) {
+            closeMenu();
+          }
+        });
+      });
+    }
+  }
 });
