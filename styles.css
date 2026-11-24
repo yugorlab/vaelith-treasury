@@ -687,7 +687,7 @@ body::before {
 
 .dashboard-screen {
   display: flex;
-  background: #0d0a14; /* Чуть темнее для контраста с панелями */
+  background: #0d0a14;
 }
 
 /* Сайдбар */
@@ -1011,12 +1011,12 @@ body::before {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #4ade80; /* Зеленый для успеха */
+  background: #4ade80;
   box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
 }
 
 .muted-dot {
-  background: #f87171; /* Красный для списаний */
+  background: #f87171;
   box-shadow: 0 0 10px rgba(248, 113, 113, 0.4);
 }
 
@@ -1040,23 +1040,105 @@ body::before {
 }
 
 /* АДАПТИВНОСТЬ */
+
+/* Планшеты */
 @media (max-width: 1024px) {
   .metric-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Мобильные устройства и планшеты (Выдвижной сайдбар) */
 @media (max-width: 850px) {
   .page-section { padding-left: 5%; padding-right: 5%; }
   .about-grid { grid-template-columns: 1fr 1fr; }
   .large-copy { grid-column: 1 / -1; margin-bottom: 20px; }
-  .sidebar { width: 80px; padding: 20px 8px; }
-  .side-brand span, .side-label { display: none; }
-  .side-link { justify-content: center; padding: 14px; }
-  .side-link span { font-size: 20px; }
-  .side-link i { display: none; }
-  .side-bottom div:nth-child(2), .side-bottom button { display: none; }
-  .side-bottom { justify-content: center; padding-top: 20px; }
+
+  /* Оверлей (затемнение при открытом меню) */
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Выдвижной сайдбар */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #14101f;
+    box-shadow: none;
+    
+    /* Возвращаем нормальные стили для меню, так как оно теперь выдвижное */
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 10px 0 50px rgba(0, 0, 0, 0.8);
+  }
+
+  .side-brand { padding: 0 12px 40px; display: flex; align-items: center; }
+  .side-brand img { width: 32px; height: 32px; }
+  .side-brand span, .side-label { display: block; }
+  .side-link { justify-content: flex-start; padding: 12px; font-size: 13px; margin-bottom: 4px; }
+  .side-link span { font-size: 16px; }
+  .side-link i { display: block; }
+  
+  .side-bottom { justify-content: flex-start; padding: 20px 12px 0; }
+  .side-bottom div:nth-child(2) { display: grid; }
+  .side-bottom button { display: block; }
+
+  .dashboard-main {
+    width: 100%;
+    padding: 24px 20px;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: max-content;
+  }
+  .mobile-menu-toggle:hover {
+    background: var(--panel-light);
+  }
+  
+  .mobile-menu-toggle {
+    display: none; 
+  }
 }
 
+@media (max-width: 850px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+}
+
+/* Смартфоны */
 @media (max-width: 620px) {
   .topbar { padding: 0 5%; height: 72px; }
   .navigation {
@@ -1095,6 +1177,7 @@ body::before {
   .login-wrap { margin: 40px auto; padding: 30px 20px; }
   .login-wrap h1 { font-size: 36px; }
 
+  /* Дашборд на смартфонах */
   .dash-header { flex-direction: column; align-items: flex-start; gap: 15px; }
   .dash-header-right { width: 100%; justify-content: space-between; }
   .welcome-strip { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
